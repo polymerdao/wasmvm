@@ -130,6 +130,8 @@ type IBCMsg struct {
 	Transfer     *TransferMsg     `json:"transfer,omitempty"`
 	SendPacket   *SendPacketMsg   `json:"send_packet,omitempty"`
 	CloseChannel *CloseChannelMsg `json:"close_channel,omitempty"`
+	// Interchain Query (ICQ)
+	Query *QueryMsg `json:"query,omitempty"`
 }
 
 type GovMsg struct {
@@ -203,6 +205,14 @@ type SendPacketMsg struct {
 
 type CloseChannelMsg struct {
 	ChannelID string `json:"channel_id"`
+}
+
+// Structure for Interchain Query (ICQ)
+type QueryMsg struct {
+	ChannelID string     `json:"channel_id"`
+	ToAddress string     `json:"to_address"`
+	Data      []byte     `json:"data"`
+	Timeout   IBCTimeout `json:"timeout"`
 }
 
 type StakingMsg struct {
