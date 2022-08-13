@@ -3,6 +3,8 @@ package types
 import (
 	"encoding/json"
 	"fmt"
+
+	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 //------- Results / Msgs -------------
@@ -127,6 +129,7 @@ type BurnMsg struct {
 }
 
 type IBCMsg struct {
+	Query        *QueryMsg        `json:"query,omitempty"`
 	Transfer     *TransferMsg     `json:"transfer,omitempty"`
 	SendPacket   *SendPacketMsg   `json:"send_packet,omitempty"`
 	CloseChannel *CloseChannelMsg `json:"close_channel,omitempty"`
@@ -186,6 +189,13 @@ func (s *voteOption) UnmarshalJSON(b []byte) error {
 	}
 	*s = voteOption
 	return nil
+}
+
+type QueryMsg struct {
+	ChannelID string `json:"channel_id"`
+	// abci proto should be json serializable
+	Requests []abci.RequestQuery `json:"requests"`
+	Timeout  IBCTimeout          `json:"timeout"`
 }
 
 type TransferMsg struct {
